@@ -1,0 +1,16 @@
+* text=auto eol=lf
+
+*.blade.php diff=html
+*.css diff=css
+*.html diff=html
+*.md diff=markdown
+*.php diff=php
+
+# Normalize all text files to LF in the repository
+* text=auto
+*.bat text eol=crlf
+*.sh text eol=lf
+
+/.github export-ignore
+CHANGELOG.md export-ignore
+.styleci.yml export-ignore
