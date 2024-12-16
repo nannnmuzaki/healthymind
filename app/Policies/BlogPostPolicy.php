@@ -30,7 +30,7 @@ class BlogPostPolicy
     public function create(User $user): bool
     {
         // Allow create if the user has therapist or admin role
-        return auth()->user()->role === 2 || auth()->user()->role === 3;  
+        return $user->role === 2 || $user->role === 3;  
     }
 
     /**
@@ -39,7 +39,7 @@ class BlogPostPolicy
     public function store(User $user): bool
     {
         // Allow store if the user has therapist or admin role
-        return auth()->user()->role === 2 || auth()->user()->role === 3;
+        return $user->role === 2 || $user->role === 3;
     }
 
     /**
@@ -48,7 +48,7 @@ class BlogPostPolicy
     public function update(User $user, BlogPost $blogPost): bool
     {
         // Allow update if the user is the author of the post or has admin role
-        return $user->id === $blogPost->user_id || auth()->user()->role === 3;
+        return $user->id === $blogPost->user_id || $user->role === 3;
     }
 
     /**
@@ -57,6 +57,6 @@ class BlogPostPolicy
     public function delete(User $user, BlogPost $blogPost): bool
     {
         // Allow delete if the user is the author of the post or has admin role
-        return $user->id === $blogPost->user_id || auth()->user()->role === 3;
+        return $user->id === $blogPost->user_id || $user->role === 3;
     }
 }

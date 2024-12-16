@@ -9,113 +9,87 @@ use App\Models\BlogPost;
 
 class BlogPostController extends Controller
 {
-
     use AuthorizesRequests;
 
     public function viewAll()
     {
         $this->authorize('viewAny', BlogPost::class);
-
-        $posts = BlogPost::get();
+        $posts = BlogPost::all();
         return view('blog.index', compact('posts'));
     }
 
     public function index()
     {
-        $this->authorize('viewAny', BlogPost::class);
-
+        $this->authorize('view', BlogPost::class);
         $posts = auth()->user()->blogPosts()->get();
         return view('dashboard.post.index', compact('posts'));
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $this->authorize('create', BlogPost::class);
-
-        return view('dashboard.post.create'); // Return the post creation form
+        return view('dashboard.post.create');
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $this->authorize('store', BlogPost::class);
 
-        // Validate the request data
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
         ]);
 
-        // Create a new blog post associated with the authenticated user
         auth()->user()->blogPosts()->create([
             'title' => $request->input('title'),
-            'content' => Purifier::clean($request->content),
+            'content' => Purifier::clean($request->input('content')),
         ]);
 
-        // Redirect to the posts index with a success message
         return redirect()->route('post.index')->with('success', 'Post created successfully!');
     }
 
-
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
-    {   
+    {
         $this->authorize('view', BlogPost::class);
 
-        // Find the post by ID or return a 404 if not found
         $post = BlogPost::findOrFail($id);
 
-        // Pass the post to the view
         return view('blog.show', compact('post'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
+    public function edit(BlogPost $post)
     {
-        $this->authorize('update', BlogPost::class);
+        $this->authorize('update', $post);
 
-        $post = auth()->user()->blogPosts()->findOrFail($id);
         return view('dashboard.post.edit', compact('post'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, BlogPost $blogPost)
+    public function update(Request $request, BlogPost $post)
     {
-    $this->authorize('update', $blogPost);
+        $this->authorize('update', $post);
 
-    $sanitizedContent = Purifier::clean($request->input('content'));
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+        ]);
 
-    $blogPost->update([
-        'title' => $request->input('title'),
-        'content' => $sanitizedContent,
-    ]);
+        $sanitizedContent = Purifier::clean($request->input('content'));
 
-    return redirect()->route('post.index')->with('success', 'Post updated successfully!');
+        $post->update([
+            'title' => $request->input('title'),
+            'content' => $sanitizedContent,
+        ]);
+
+        return redirect()->route('post.index')->with('success', 'Post updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(BlogPost $blogPost)
+    public function destroy(BlogPost $post)
     {
-        $this->authorize('delete', $blogPost);
+        \Log::info('Deleting post', ['post_id' => $post->id]);
+        $this->authorize('delete', $post);
 
-        $blogPost->delete();
+        $post->delete();
 
         return redirect()->route('post.index')->with('success', 'Post deleted successfully!');
     }
-
 }

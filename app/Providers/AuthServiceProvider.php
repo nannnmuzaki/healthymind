@@ -2,24 +2,19 @@
 
 namespace App\Providers;
 
-use App\Models\BlogPost;
-use App\Policies\BlogPostPolicy;
+use App\Models\TherapySchedule;
+use App\Models\TherapySession;
+use App\Policies\TherapySessionPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    /**
-     * The policy mappings for the application.
-     *
-     * @var array
-     */
     protected $policies = [
         BlogPost::class => BlogPostPolicy::class,
+        TherapySession::class => TherapySessionPolicy::class,
+        TherapySchedule::class => TherapySchedulePolicy::class,
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     */
     public function boot(): void
     {
         $this->registerPolicies();

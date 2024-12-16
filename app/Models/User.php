@@ -52,4 +52,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(BlogPost::class);
     }
+
+    public function therapySessionsAsUser()
+    {
+        return $this->hasMany(TherapySession::class, 'user_id');
+    }
+
+    public function therapySessionsAsTherapist()
+    {
+        return $this->hasMany(TherapySession::class, 'therapist_id');
+    }
 }

@@ -17,6 +17,9 @@
                         <x-nav-link :href="route('homepage')" :active="request()->routeIs('homepage')">
                             {{ __('Home') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('therapy.index')" :active="request()->routeIs('therapy.index')">
+                            {{ __('Therapy') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('blog.index')" :active="request()->routeIs('blog.index')">
                             {{ __('Blog') }}
                         </x-nav-link>
@@ -122,6 +125,9 @@
                     <div class="hidden space-x-6 sm:-my-px sm:ms-10 sm:flex sm:flex-grow-0 sm:items-center">
                         <x-nav-link :href="route('homepage')" :active="request()->routeIs('homepage')">
                             {{ __('Home') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('therapy.index')" :active="request()->routeIs('therapy.index')">
+                            {{ __('Therapy') }}
                         </x-nav-link>
                         <x-nav-link :href="route('blog.index')" :active="request()->routeIs('blog.index')">
                             {{ __('Blog') }}

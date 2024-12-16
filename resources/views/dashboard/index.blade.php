@@ -1,16 +1,21 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <a href="{{ route('post.create') }}">
-                    <button class="px-4 py-2 mt-4 bg-green-700 rounded-xl text-slate-50">Create Post</button>
-                    </a>
+            <div class="overflow-hidden shadow-sm bg-healthymind-bg sm:rounded-lg">
+                <div class="text-gray-900">
+                    <div class="flex min-h-screen">
+                        <div class="flex flex-col items-center justify-start border-r-2 border-healthymind-dark min-w-max">
+                            <h1 class="w-full px-6 py-5 text-xl font-semibold border-b-2 border-healthymind-dark">Dashboard</h1>
+                            <a href="{{ route('session.index') }}" class="w-full px-6 py-4 text-sm font-medium border-b-2 border-healthymind-dark">Therapy Session</a>
+                            @if(auth()->user()->role === 2 || auth()->user()->role === 3)
+                                <a href="{{ route('schedule.manage') }}" class="w-full px-6 py-4 text-sm font-medium border-b-2 border-healthymind-dark">Schedule</a>
+                                <a href="{{ route('post.index') }}" class="w-full px-6 py-4 text-sm font-medium border-b-2 border-healthymind-dark">Posts</a>
+                            @endif
+                        </div>
+                        <div class="p-6">
+                        <span class="text-lg font-semibold">Hi, welcome to HealthyMind dashboard page</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
