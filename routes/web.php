@@ -5,6 +5,7 @@ use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\TherapyScheduleController;
 use App\Http\Controllers\TherapySessionController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MediaController;
 
 Route::get('/', function () {
     return view('homepage');
@@ -52,6 +53,9 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/therapy', [TherapyScheduleController::class, 'index'])->name('therapy.index');
 Route::post('/therapy/{id}', [TherapySessionController::class, 'book'])->name('therapy.book');
-    
+
+Route::get('/dashboard/media', [MediaController::class, 'index'])->name('media.index');
+Route::post('/dashboard/media/upload', [MediaController::class, 'upload'])->name('media.upload');
+Route::delete('/dashboard/media/{media}', [MediaController::class, 'destroy'])->name('media.destroy'); 
 
 require __DIR__.'/auth.php';

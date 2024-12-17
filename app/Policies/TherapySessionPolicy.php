@@ -15,9 +15,9 @@ class TherapySessionPolicy
         return true;
     }
 
-    public function view(): bool
+    public function view(User $user): bool
     {
-        return auth()->check();
+        return true;
     }
 
     public function create(User $user): bool
@@ -32,6 +32,6 @@ class TherapySessionPolicy
 
     public function delete(User $user, TherapySession $therapySession): bool
     {
-        return $user->id === $therapySession->user_id || $user->role === 3;
+        return $user->id === $therapySession->user_id || $user->id === $therapySession->therapist_id || $user->role === 3;
     }
 }

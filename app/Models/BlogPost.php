@@ -14,10 +14,17 @@ class BlogPost extends Model
         'content',
         'user_id',
         'image',
+        'slug',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
+    public function featuredImage()
+    {
+        return $this->belongsTo(Media::class, 'image');
+    }
+
 }

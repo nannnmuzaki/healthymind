@@ -24,8 +24,15 @@ class TherapySessionController extends Controller
      */
     public function index()
     {
-        $this->authorize('view', TherapySession::class);
-        $sessions = TherapySession::where('user_id', Auth::id())->get();
+        $user = auth()->user();
+        if ($user->role === 1) {
+            // Fetch sessions for clients
+            $sessions = TherapySession::where('user_id', $user->id)->get();
+        } else {
+            // Fetch sessions for therapists
+            $sessions = TherapySession::where('therapist_id', $user->id)->get();
+        }
+
         return view('dashboard.therapy.session.index', compact('sessions'));
     }
 
@@ -57,12 +64,10 @@ class TherapySessionController extends Controller
      */
     public function destroy(TherapySession $session)
     {
-        if ($session->user_id != Auth::id()) {
-            return redirect()->route('therapy.index')->with('error', 'Unauthorized action.');
-        }
+        $this->authorize('delete', [$session]);
 
         $session->delete();
-        return redirect()->route('therapy.index')->with('success', 'Therapy session deleted successfully.');
+        return redirect()->route('session.index')->with('success', 'Therapy session deleted successfully.');
     }
 
     /**
@@ -70,7 +75,7 @@ class TherapySessionController extends Controller
      */
     public function toggleIsPaid(Request $request, TherapySession $session)
     {
-        $this->authorize('update', TherapySession::class);
+        $this->authorize('update', [$session]);
         $request->validate([
             'is_paid' => 'required|boolean',
             'session_link' => 'nullable|url',

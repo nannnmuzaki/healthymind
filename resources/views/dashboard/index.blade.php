@@ -10,10 +10,11 @@
                             @if(auth()->user()->role === 2 || auth()->user()->role === 3)
                                 <a href="{{ route('schedule.manage') }}" class="w-full px-6 py-4 text-sm font-medium border-b-2 border-healthymind-dark">Schedule</a>
                                 <a href="{{ route('post.index') }}" class="w-full px-6 py-4 text-sm font-medium border-b-2 border-healthymind-dark">Posts</a>
+                                <a href="{{ route('media.index') }}" class="w-full px-6 py-4 text-sm font-medium border-b-2 border-healthymind-dark">Media</a>
                             @endif
                         </div>
                         <div class="p-6">
-                        <span class="text-lg font-semibold">Hi, welcome to HealthyMind dashboard page</span>
+                            <span class="px-4 py-6 text-2xl font-semibold">Hi, {{ auth()->user()->name }}</span>
                         </div>
                     </div>
                 </div>
